@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: bloogy-backend
+    runtime: docker
+    dockerfilePath: ./bloogy_backend/bloogy_backend/Dockerfile
+    port: 8080
+    envFile: ./bloogy_backend/bloogy_backend/.env
+    envVars:
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: /run/secrets/gcp-service-account.json
+      - key: GOOGLE_OAUTH_REDIRECT_URI
+        value: https://bloogy.onrender.com/login/oauth2/code/google
+
+  - type: web
+    name: bloogy-frontend
+    runtime: docker
+    dockerfilePath: ./bloogy_frontend/Dockerfile
+    port: 80
+    dependsOn:
+      - bloogy-backend
