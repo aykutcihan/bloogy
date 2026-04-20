@@ -1,0 +1,20 @@
+swagger: '2.0'
+info:
+  title: My API
+  description: A sample API for demonstration
+  version: 1.0.0
+host: spring-nova-446113-v5.appspot.com
+basePath: /api
+schemes:
+  - https
+paths:
+  /messages:
+    get:
+      description: Returns a list of messages
+      responses:
+        '200':
+          description: A JSON array of messages
+          schema:
+            type: array
+            items:
+              type: string

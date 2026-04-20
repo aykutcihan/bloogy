@@ -1,0 +1,39 @@
+# =====================================================
+# ROOT docker-compose.yml
+# Kullanim: bloogy/ klasorunde "docker-compose up --build"
+# FE: http://localhost:18080
+# BE: http://localhost:18081 (direkt erisim, normalde gerek yok)
+# =====================================================
+
+services:
+
+  # ---- BACKEND (Spring Boot) ----
+  backend:
+    build: ./bloogy_backend/bloogy_backend
+    container_name: bloogy-backend
+    ports:
+      - "18081:8080"   # 18081 dis port, 8080 ic port
+    env_file:
+      - ./bloogy_backend/bloogy_backend/.env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/gcp-service-account.json
+      GOOGLE_OAUTH_REDIRECT_URI: http://localhost:18080/login/oauth2/code/google
+    volumes:
+      - "${GCP_SERVICE_ACCOUNT_FILE:-./bloogy_backend/bloogy_backend/bloogy-service-account.json}:/run/secrets/gcp-service-account.json:ro"
+    networks:
+      - bloogy-network
+
+  # ---- FRONTEND (Flutter + nginx) ----
+  frontend:
+    build: ./bloogy_frontend
+    container_name: bloogy-frontend
+    ports:
+      - "18080:80"     # 18080 dis port, 80 ic nginx portu
+    depends_on:
+      - backend
+    networks:
+      - bloogy-network
+
+networks:
+  bloogy-network:
+    driver: bridge

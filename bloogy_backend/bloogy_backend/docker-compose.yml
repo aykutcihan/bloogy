@@ -1,0 +1,30 @@
+# =====================================================
+# SADECE BACKEND calistirmak istersen bu dosyayi kullan:
+#   cd bloogy_backend/bloogy_backend
+#   docker-compose up --build
+# 
+# FE ile birlikte calistirmak icin ROOT'taki docker-compose.yml kullan
+# =====================================================
+
+services:
+  bloogy-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bloogy-backend-local
+    env_file:
+      - .env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/gcp-service-account.json
+      GOOGLE_OAUTH_REDIRECT_URI: http://localhost:18080/login/oauth2/code/google
+    ports:
+      - "18081:8080"
+    volumes:
+      - "${GCP_SERVICE_ACCOUNT_FILE:-./bloogy-service-account.json}:/run/secrets/gcp-service-account.json:ro"
+    networks:
+      - bloogy-network
+    restart: unless-stopped
+
+networks:
+  bloogy-network:
+    driver: bridge

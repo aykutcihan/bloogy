@@ -1,0 +1,9 @@
+.git
+.m2
+target
+.env
+.env.local
+*.log
+client_secret_*.json
+*.apps.googleusercontent.com.json
+*-service-account.json

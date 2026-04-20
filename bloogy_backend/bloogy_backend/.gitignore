@@ -1,0 +1,15 @@
+.env
+.env.local
+*.log
+
+# Local GCP credential files
+*-service-account.json
+*-service-account-key.json
+client_secret_*.json
+*.apps.googleusercontent.com.json
+spring-nova.json
+pubsub-service-account-key.json
+client_secret.json
+
+# Build output
+target/
