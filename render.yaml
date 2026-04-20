@@ -11,5 +11,3 @@ services:
     name: bloogy-frontend
     runtime: docker
     dockerfilePath: ./bloogy_frontend/Dockerfile
-    depends_on:
-      - bloogy-backend
